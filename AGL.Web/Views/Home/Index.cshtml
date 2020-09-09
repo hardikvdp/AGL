@@ -1,0 +1,30 @@
+﻿@model IEnumerable<AGL.Web.ViewModels.HomeViewModel>
+
+@{
+    ViewBag.Title = "Lising Page";
+    Layout = "_Layout";
+}
+
+<div class="treeview">
+    @if (Model != null && Model.Count() > 0)
+    {
+        <ul class="mainclass">
+            @foreach (var gender in Model)
+            {
+
+                <li>
+                    @gender.Gender
+                    @if (gender.Cats != null && gender.Cats.Count() > 0)
+                    {
+                        <ul>
+                            @foreach (var person in gender.Cats)
+                            {
+                                <li class="subclass">@person.Name</li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+    }
+</div>
