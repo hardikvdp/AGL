@@ -24,9 +24,9 @@ namespace AGL.Web.Repository
             this._serviceUrl = _config["ServiceURL"];
         }
         
-        public List<Person> GetPeronsWithCats()
+        public async Task<List<Person>> GetPeronsWithCatsAsync()
         {
-            var res =  _client.DownloadString(_serviceUrl);
+            var res =  await _client.DownloadStringTaskAsync(_serviceUrl);
             var persons = JsonConvert.DeserializeObject<List<Person>>(res);
             var grouped = persons.Select(x => new Person { Name = x.Name, Age = x.Age, Gender = x.Gender, Pets = x.Pets.Where(c => c.Type == "Cat").ToList() }).ToList();
             return grouped;

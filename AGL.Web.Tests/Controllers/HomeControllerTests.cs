@@ -9,15 +9,16 @@ using AGL.Web.Models;
 using AGL.Web.ViewModels;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AGL.Web.Controllers.Tests
 {
     public class HomeControllerTests
     {
         [Fact()]
-        public void IndexTest()
+        public async Task IndexTest()
         {
-            //
+            //Arrange
             var persons = new List<Person>() {
                new Person(){  Name = "Bob", Gender = "Male", Age = 23, Pets = new List<Pet>() { new Pet() { Name = "Garfield", Type = "Cat" } } },
                new Person(){  Name = "Jennifer", Gender = "Female", Age = 18, Pets = new List<Pet>() { new Pet() { Name = "Garfield", Type = "Cat" } } },
@@ -27,14 +28,15 @@ namespace AGL.Web.Controllers.Tests
             };
 
             var aglRepository = new Mock<IAGLRepository>();
-            aglRepository.Setup(svc => svc.GetPeronsWithCats())
-                 .Returns(persons);
-
+            aglRepository.Setup(svc => svc.GetPeronsWithCatsAsync())
+                 .ReturnsAsync(persons);
             var homeControllerTest = new HomeController(aglRepository.Object);
-            var result = homeControllerTest.Index();
 
-            var viewResult = Assert.IsType<ViewResult>(result);
+            // Act
+            var result = await homeControllerTest.Index();
 
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);                        
             Assert.IsType<List<HomeViewModel>>(viewResult.ViewData.Model);
         }
     }

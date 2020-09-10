@@ -8,6 +8,6 @@ namespace AGL.Web.Repository
 {
     public interface IAGLRepository
     {
-        List<Person> GetPeronsWithCats();
+        Task<List<Person>> GetPeronsWithCatsAsync();
     }
 }

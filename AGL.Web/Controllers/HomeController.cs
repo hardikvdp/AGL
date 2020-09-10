@@ -16,9 +16,9 @@ namespace AGL.Web.Controllers
         {
             _aglRepository = aglRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var _persons = _aglRepository.GetPeronsWithCats();
+            var _persons = await _aglRepository.GetPeronsWithCatsAsync();
             var grpd = _persons.GroupBy(x => x.Gender);
             var result = grpd.Select(x => new HomeViewModel
             {
